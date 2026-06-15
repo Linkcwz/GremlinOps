@@ -54,8 +54,8 @@ honest status table:
 | Component | Trust tier | Evidence |
 |---|---|---|
 | Doctrine (control-plane, anti-silo law, validation gates) | **Proven** | In production in the origin environment; rules carry dated incident provenance |
-| Codex-driven workflows | **Proven** | Primary operator in the origin environment |
-| Claude-driven workflows | **Probationary** | Works under the harness; earns trust by evidence, never by sounding confident |
+| Codex-driven workflows | **Probationary (toddler)** | Capable, fast, needs the rails — follows doctrine well when the hooks hold it |
+| Claude-driven workflows | **Probationary (idiot gremlin)** | Smart, confident, frequently wrong — earns trust only by evidence, never by sounding sure |
 | Other agents (Gemini, self-hosted) | **Untested** | Shims exist; no production hours |
 | The steel (hooks, guards, helpers) in original form | **Proven** | Running in the origin environment; load-bearing hooks ship with self-tests |
 | The steel in THIS genericized form | **Probationary** | Faithful transforms of the proven originals (env prefixes + configurable path lists); syntax-checked, not yet production-validated outside the origin — run the self-tests in YOUR environment |
