@@ -28,6 +28,30 @@ setup; the rules here carry the scars that created them.
 You do not get safety by asking the model to be careful. You get it by making
 the dangerous path unavailable. Full doctrine: [`doctrine/control-plane.md`](doctrine/control-plane.md).
 
+## Get started
+
+**Linux / macOS / WSL — shell-first:**
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/Linkcwz/GremlinOps/main/gremlin-init.sh)
+```
+
+Asks a few questions (role, which agents, tethered vs local-only), configures Claude Code and Codex, generates a machine identity keypair, and sets up your host folder. Needs `git`, `ssh`, and `node`.
+
+**Windows — Git Bash or WSL terminal:**
+
+Same one-liner. Run from Git Bash or a WSL shell — `gremlin-init.sh` is plain bash.
+
+**Any platform — agent-first (Claude Code or Codex already installed):**
+
+1. Download [`NEW_DEVICE_AGENT_ONBOARDING.md`](NEW_DEVICE_AGENT_ONBOARDING.md).
+2. Paste its contents as your agent's first prompt.
+3. Answer the opening questions, then walk away (~15 min unattended).
+
+**Already have a repo and just want the memory pattern?** → [`onboarding/QUICKSTART.md`](onboarding/QUICKSTART.md)
+
+---
+
 ## What's in the box
 
 | Path | What it is |
