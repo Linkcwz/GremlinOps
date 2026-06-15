@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -u
+
+# commit-msg guard (definition of done): a commit that changes user-facing
+# tools must state what end-state was actually VALIDATED, via a `Validated:`
+# trailer. This is the teeth on the recurring "declared done on a proxy /
+# committed untested" failure — "it doesn't flash" / "the files are
+# committed" are proxies, not the operator's end-state. The trailer is a
+# forcing function and a checkable artifact, not a guarantee; say what you
+# really verified.
+#
+# Adjust ENFORCED_PATHS to the directories holding YOUR user-facing tools.
+# Override for a genuine exception: GREMLIN_SKIP_DOD_CHECK=1.
+
+ENFORCED_PATHS='^(Utilities|tools)/'
+
+if [[ ${GREMLIN_SKIP_DOD_CHECK:-} == "1" ]]; then
+  exit 0
+fi
+
+# Discipline guardrail: applies to AGENTS only. The operator's own commits
+# are NEVER hooked. See .githooks/lib/agent-context.sh.
+HOOK_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$HOOK_DIR/lib/agent-context.sh"
+gremlin_is_agent_session || exit 0
+
+msg_file=$1
+
+# Only enforce when the commit actually touches user-facing tools.
+if ! git diff --cached --name-only | grep -qE "$ENFORCED_PATHS"; then
+  exit 0
+fi
+
+# Require a non-empty `Validated:` trailer line.
+if ! grep -qiE '^Validated:[[:space:]]*\S' "$msg_file"; then
+  printf 'commit-msg blocked: this commit changes user-facing tools but states no validation.\n' >&2
+  printf 'Definition of done: prove the OPERATOR end-state, not a proxy. Add a Validated: trailer, e.g.\n' >&2
+  printf '  Validated: ran the shortcut - app restarted, no window flashed (PID 1772 -> 40872)\n' >&2
+  printf 'Override for a genuine exception: GREMLIN_SKIP_DOD_CHECK=1\n' >&2
+  exit 1
+fi
+exit 0

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -u
+
+# pre-commit guard (example of a platform-UX rule given steel): block Windows
+# shortcut builders that would FLASH a console window. A shortcut whose
+# TargetPath is a console host (cmd.exe / powershell.exe / pwsh.exe) pops a
+# window when run or pinned. Route it through wscript.exe + a hidden VBS
+# launcher instead (worker .cmd/.ps1 + Run-<Name>-Hidden.vbs +
+# Create-<Name>-Shortcut.ps1 whose TargetPath is wscript.exe).
+#
+# This hook is the worked example of the doctrine's core move: a prose rule
+# ("never flash a window") that agents kept violating became a mechanical
+# check at commit time. Replace its body with whatever YOUR most-violated
+# platform rule is.
+#
+# Scoped to script files so it cannot false-positive on docs or the hooks
+# themselves. Emergency / false-positive override: GREMLIN_SKIP_SHORTCUT_CHECK=1.
+
+if [[ ${GREMLIN_SKIP_SHORTCUT_CHECK:-} == "1" ]]; then
+  exit 0
+fi
+
+# Discipline guardrail: applies to AGENTS only. The operator's own commits
+# are NEVER hooked. See .githooks/lib/agent-context.sh.
+HOOK_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$HOOK_DIR/lib/agent-context.sh"
+gremlin_is_agent_session || exit 0
+
+violations=0
+while IFS= read -r f; do
+  [[ -n "$f" ]] || continue
+  case "$f" in
+    .githooks/*) continue ;;            # never scan the hooks themselves
+    *.ps1|*.psm1|*.cmd|*.bat|*.vbs) ;;  # only Windows script files build shortcuts
+    *) continue ;;
+  esac
+
+  content=$(git show ":$f" 2>/dev/null) || continue
+  # Only consider files that actually build a Windows shortcut.
+  printf '%s' "$content" | grep -qiE 'createshortcut|\.lnk' || continue
+  # Flag a TargetPath pointed at a console host (it will flash).
+  bad=$(printf '%s' "$content" | grep -niE 'targetpath' \
+        | grep -iE 'cmd\.exe|powershell\.exe|pwsh\.exe' || true)
+  [[ -n "$bad" ]] || continue
+
+  if [[ $violations -eq 0 ]]; then
+    printf 'pre-commit blocked: a Windows shortcut targets a console host and will FLASH a window.\n' >&2
+    printf 'Route it through wscript.exe + a hidden VBS launcher instead.\n' >&2
+  fi
+  violations=1
+  printf '  %s\n' "$f" >&2
+  while IFS= read -r l; do printf '        %s\n' "$l" >&2; done <<< "$bad"
+done < <(git diff --cached --name-only --diff-filter=ACM)
+
+if [[ $violations -ne 0 ]]; then
+  printf '\nFix the TargetPath (use wscript.exe), or set GREMLIN_SKIP_SHORTCUT_CHECK=1 for a genuine false positive.\n' >&2
+  exit 1
+fi
+exit 0

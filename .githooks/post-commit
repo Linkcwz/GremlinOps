@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+set -u
+
+# Auto-mirror hook. After each local commit, push the new HEAD according to
+# the repo git policy (Agents/Git/git-policy.env). For the PUBLIC remote,
+# mirror either HEAD directly or a SANITIZED tree commit that omits
+# private-only paths. Never fail the commit just because a push failed.
+#
+# Configure PRIVATE_PATHS / PRIVATE_TREES to match .githooks/pre-push (the
+# pre-push hook is the backstop; this hook is the path that makes the
+# backstop rarely needed).
+#
+# One-off local-only commit: GREMLIN_SKIP_AUTO_PUSH=1
+
+PRIVATE_PATHS=(
+  "private/credentials.md"
+  "Agents/SSH/id_ed25519"
+)
+PRIVATE_TREES=(
+  "private-records/"
+)
+PUBLIC_REMOTE=github   # the remote name that must only ever see sanitized trees
+
+if [[ ${GREMLIN_SKIP_AUTO_PUSH:-} == "1" ]]; then
+  exit 0
+fi
+
+repo=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+source "$repo/Agents/Git/git-policy.sh"
+gremlin_load_git_policy "$repo"
+
+push_remote() {
+  local remote=$1 branch=$2 refspec=$3
+  git remote get-url "$remote" >/dev/null 2>&1 || return 0
+  local current_branch
+  current_branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+  if [[ -z "$current_branch" ]]; then
+    printf '[auto-mirror] warning: cannot auto-push detached HEAD to %s\n' "$remote" >&2
+    return 0
+  fi
+  printf '[auto-mirror] pushing HEAD to %s/%s\n' "$remote" "$branch" >&2
+  git push "$remote" "$refspec" >&2 ||
+    printf '[auto-mirror] warning: push to %s failed\n' "$remote" >&2
+}
+
+private_path_exists() {
+  local p t
+  for p in "${PRIVATE_PATHS[@]}"; do
+    git cat-file -e "HEAD:$p" 2>/dev/null && return 0
+  done
+  for t in "${PRIVATE_TREES[@]}"; do
+    git ls-tree -r --name-only HEAD -- "$t" 2>/dev/null | grep -q . && return 0
+  done
+  return 1
+}
+
+push_public() {
+  local branch=$1 refspec=$2
+  git remote get-url "$PUBLIC_REMOTE" >/dev/null 2>&1 || return 0
+
+  if ! private_path_exists; then
+    push_remote "$PUBLIC_REMOTE" "$branch" "$refspec"
+    return 0
+  fi
+
+  printf '[auto-mirror] pushing sanitized HEAD to %s without private-only paths\n' "$PUBLIC_REMOTE" >&2
+  git fetch --quiet "$PUBLIC_REMOTE" "$branch" 2>/dev/null || true
+
+  local tmp_index tmp_msg parent parent_tree sanitized_tree sanitized_commit p t
+  tmp_index=$(mktemp); tmp_msg=$(mktemp)
+
+  if ! GIT_INDEX_FILE="$tmp_index" git read-tree HEAD; then
+    rm -f "$tmp_index" "$tmp_msg"
+    printf '[auto-mirror] warning: could not build sanitized index\n' >&2
+    return 0
+  fi
+  for p in "${PRIVATE_PATHS[@]}"; do
+    GIT_INDEX_FILE="$tmp_index" git rm -q --cached --ignore-unmatch -- "$p" || true
+  done
+  for t in "${PRIVATE_TREES[@]}"; do
+    GIT_INDEX_FILE="$tmp_index" git rm -q -r --cached --ignore-unmatch -- "$t" || true
+  done
+  sanitized_tree=$(GIT_INDEX_FILE="$tmp_index" git write-tree)
+
+  parent=$(git rev-parse --verify "refs/remotes/$PUBLIC_REMOTE/$branch" 2>/dev/null || true)
+  if [[ -n "$parent" ]]; then
+    parent_tree=$(git rev-parse "$parent^{tree}" 2>/dev/null || true)
+    if [[ "$parent_tree" == "$sanitized_tree" ]]; then
+      rm -f "$tmp_index" "$tmp_msg"
+      printf '[auto-mirror] public sanitized tree already current\n' >&2
+      return 0
+    fi
+  fi
+
+  git log -1 --format=%B HEAD >"$tmp_msg"
+  if [[ -n "$parent" ]]; then
+    sanitized_commit=$(
+      GIT_AUTHOR_NAME="$(git show -s --format=%an HEAD)" \
+      GIT_AUTHOR_EMAIL="$(git show -s --format=%ae HEAD)" \
+      GIT_AUTHOR_DATE="$(git show -s --format=%aI HEAD)" \
+      GIT_INDEX_FILE="$tmp_index" \
+      git commit-tree "$sanitized_tree" -p "$parent" -F "$tmp_msg"
+    )
+  else
+    sanitized_commit=$(
+      GIT_AUTHOR_NAME="$(git show -s --format=%an HEAD)" \
+      GIT_AUTHOR_EMAIL="$(git show -s --format=%ae HEAD)" \
+      GIT_AUTHOR_DATE="$(git show -s --format=%aI HEAD)" \
+      GIT_INDEX_FILE="$tmp_index" \
+      git commit-tree "$sanitized_tree" -F "$tmp_msg"
+    )
+  fi
+  rm -f "$tmp_index" "$tmp_msg"
+
+  if git push "$PUBLIC_REMOTE" "$sanitized_commit:refs/heads/$branch" >&2; then
+    git update-ref "refs/remotes/$PUBLIC_REMOTE/$branch" "$sanitized_commit" 2>/dev/null || true
+  else
+    printf '[auto-mirror] warning: sanitized push to %s failed\n' "$PUBLIC_REMOTE" >&2
+  fi
+}
+
+policy_refspec=$(gremlin_git_policy_refspec)
+
+# All pushes to the public remote go through push_public so private-only
+# paths are stripped — whether it is the mirror (normal mode) or the primary
+# write remote (fallback mode during a private-remote outage).
+if [[ $GREMLIN_GIT_REMOTE == "$PUBLIC_REMOTE" ]]; then
+  push_public "$GREMLIN_GIT_BRANCH" "$policy_refspec"
+else
+  push_remote "$GREMLIN_GIT_REMOTE" "$GREMLIN_GIT_BRANCH" "$policy_refspec"
+  push_public "$GREMLIN_GIT_BRANCH" "$policy_refspec"
+fi
+exit 0
