@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/GremlinOps_Github.png" alt="GremlinOps — Automate. Secure. Deploy. Repeat." />
+</p>
+
 # GremlinOps
 
 **Operational doctrine for running LLM agents fast — without trusting them.**
