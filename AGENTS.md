@@ -135,20 +135,36 @@ being touched. Clear or update it after the work is committed and pushed.
 For concurrent implementation work, prefer separate worktrees or task
 branches. Do not use the same dirty checkout for multiple unrelated agents.
 
-## Shared Memory Rules
+## Shared Knowledge Rules — doctrine vs evidence
 
-Memories are shared by default. If a session changes behavior, configuration,
-credentials-free setup details, preferences, troubleshooting findings,
-scripts, app wiring, or network policy — anything that would help a future
-agent continue cleanly — write a concise dated memory note:
+**Memories are evidence; topic docs are doctrine.** Durable knowledge lives in
+**non-dated topic docs organized by subject** (by layer / by what the thing
+IS) — each one the full current answer for its subject — NOT in a growing pile
+of dated notes a future reader has to archaeology-dig through. When a durable
+fact, rule, or state changes, **update the topic doc**.
+
+Dated memories are the **evidence layer**: a detailed incident or diagnostic
+record that BACKS a topic doc.
 
 ```text
 Agents/Hosts/<Identity>/memories/YYYY-MM-DD-short-topic.md
 ```
 
-Write to the current identity folder, but write FOR a shared audience: agents
-on every host and every model will read it later. When in doubt, create a
-small note rather than leaving useful context trapped in chat history.
+Three rules:
+
+1. A durable fact/rule/state change → update the **topic doc** (cross-cutting
+   rules → the relevant SOP / shared doctrine).
+2. A detailed incident worth keeping → write the dated memory too, tag it
+   `Evidence-for: <topic-doc path>`, and link it from that doc's
+   `History / Evidence` section.
+3. Never an `INDEX.md` that is a **graveyard of dated-memory links** — a
+   topic/domain index is a table of contents of topic docs (a per-host index
+   may still list that host's evidence memories).
+
+Write to the current identity folder, but FOR a shared audience: agents on
+every host and model read it later. An anti-sprawl PreToolUse hook enforces
+this — a new dated memory is blocked unless it carries an `Evidence-for:`
+line, and a graveyard index is blocked.
 
 ## Secret Handling
 

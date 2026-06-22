@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "source": "Public/GremlinOps",
+  "files": [
+    {
+      "path": ".claude/hooks/block-askuserquestion.js",
+      "sha256": "fc3e339af494e637df131d0017e093a9731422a9ed9c90560e960c9fbf0105a7"
+    },
+    {
+      "path": ".claude/hooks/force-task-scratch.js",
+      "sha256": "78d25e3c5500dc2a15169b1dd5e59cb00906c70ce6ba0d402744a27c4f037e30"
+    },
+    {
+      "path": ".claude/hooks/no-ab-choice.js",
+      "sha256": "f5d26a3990618d9435922c43071e578b4768cb4ffa1342485b133bc6071133e4"
+    },
+    {
+      "path": ".claude/hooks/no-question-stop.js",
+      "sha256": "3a629808ea5013ae76f6c35f872fac63cdf8e17d041a358560ed8b22d3779ad2"
+    },
+    {
+      "path": ".claude/hooks/precommit-reminder.js",
+      "sha256": "3bc5ccf5bdc5c3a00a153af847e9aefa04f5392dc93b605c7d05e8bf91403386"
+    },
+    {
+      "path": ".claude/hooks/prompt-verify.js",
+      "sha256": "09f25e56a9886df7e1d78c692f24f04bbe325c7a4db9e93951372cd62920f7c4"
+    },
+    {
+      "path": ".claude/hooks/read-before-edit.js",
+      "sha256": "a0315354a8c836b94ac3adf2abbf29afce238a4c94bf4360a328cdfef1273cfc"
+    },
+    {
+      "path": ".claude/hooks/session-start.js",
+      "sha256": "92d8cb7a0729598847052cfb50e68d1f4e211e1a1056208b97ff358f814194fb"
+    },
+    {
+      "path": ".claude/hooks/verify-startup-artifacts.js",
+      "sha256": "c2b880f43a93f105727c4a7109ae5a808d121a0553766cc97d0d87c33ead386d"
+    },
+    {
+      "path": ".claude/settings.json.example",
+      "sha256": "b958f346a055e2006c126e1a570daf7c925dae65c787bee9576b628d5454df7d"
+    },
+    {
+      "path": ".claude/test-startup-surface.js",
+      "sha256": "a1d8a3d463cf85ce08269fb8086e1bfe1c6475ce0cac371cdf85020935f2c9df"
+    },
+    {
+      "path": ".githooks/commit-msg",
+      "sha256": "280b4b2a6d0eba7f72181a73eb7baed2ff7ec7a2b300319dcb3ab82eca36952c"
+    },
+    {
+      "path": ".githooks/lib/agent-context.sh",
+      "sha256": "64113f4d71223410ecaab779e4679ce8e168464315802539768d9fda7f682708"
+    },
+    {
+      "path": ".githooks/post-commit",
+      "sha256": "9ab92eb7fcbfdb24c45998f3e083c02495a2d4713795e137bb2ffddfb89d7e8b"
+    },
+    {
+      "path": ".githooks/pre-commit",
+      "sha256": "d46cbf826770ce9dbe3855242e641191d63ff85ea0c37b41d1c51a6b314a7e19"
+    },
+    {
+      "path": ".githooks/pre-push",
+      "sha256": "732f0c632acc68a44379868a5d4e8da49884600fc2621fc3c93558b35833c1f0"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "ca0a63ec492328f8fc0bee729bd73b0a374797107e05cc22869ed3fbfa9c2521"
+    },
+    {
+      "path": "Agents/Agent-Notes/AGENTS.shared.md",
+      "sha256": "23afefe69026456224b5d0488e72d9dfe7f452b21a6e97b634d961fe289a6fb6"
+    },
+    {
+      "path": "Agents/bin/clean-task-scratch.js",
+      "sha256": "3726ea5ed11b412cae95b03d0258544aac258930aedf1723b1edcfa2fbf74738"
+    },
+    {
+      "path": "Agents/bin/new-task-scratch.js",
+      "sha256": "3170a9cc42c708f406d9c041cb5ed6437dcde0d802d529aee8f139558dd20693"
+    },
+    {
+      "path": "Agents/Git/git-policy.env",
+      "sha256": "8e68b7498997e553f1e4c1e49a63344106835556881016f67be45ce9de93017f"
+    },
+    {
+      "path": "Agents/Git/git-policy.sh",
+      "sha256": "bff6a7d11b6383d1882a222b461c4fc6ce30c93381345d7ddecd0aacdd4bb4e8"
+    },
+    {
+      "path": "Agents/Git/install-hooks.sh",
+      "sha256": "1a9f7ffddadd99eb240e3624b86d75f6390e78cfdad892c6cf8b967986d85a88"
+    },
+    {
+      "path": "Agents/Git/public-export-policy.md",
+      "sha256": "669fdd940390876115bc5dc4b0e02c0f3b3a874ecc6f5330d698598d18395b31"
+    },
+    {
+      "path": "Agents/Git/Windows/RunHidden.vbs",
+      "sha256": "736fb3441dc9a5a277354df657d3682392426f4900c952180a6b1a502ced72a7"
+    },
+    {
+      "path": "Agents/Hosts/_template/AGENTS.md",
+      "sha256": "f691c1402a033e867b7285ecff57dfd2b4058acfb2c31662498e802f3f66afc0"
+    },
+    {
+      "path": "Agents/Hosts/_template/memories/2026-01-01-example-memory.md",
+      "sha256": "6c5781d06075cc14a28e4d562d64faa595205a6c104afeed1581f715c9664570"
+    },
+    {
+      "path": "Agents/Hosts/anvil/AGENTS.md",
+      "sha256": "7db329a9ffd3956d011a7624cc60c40eea426227005721e0f9d282cef8926ed5"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-03-tunnel-watchdog-and-530-trap.md",
+      "sha256": "dddc82b5925f11e75767b699123e94dfff469341d385640a315bc6d8df998f39"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-05-hidden-automation-rule.md",
+      "sha256": "5199e4d008c3322d25845aebfaa79f7e99f1bd9c981083b4173d34b37d0def7d"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-08-retire-secondary-ssh-port.md",
+      "sha256": "59a2195a80d0fa7d94545bfae7df5fb967556e2af36458ba54a55da7a353fc81"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-12-no-babysitting-trailing-questions.md",
+      "sha256": "1c4037bfa2aa3aff5b7b5ee85b6ce8f5d2485d1ece56ce02c91f99705c6cbdb0"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-15-startup-surface-enforced-and-self-tested.md",
+      "sha256": "c5fbff5a37312dfa974c9a8e279b860cef513ffea636c136d5194444992eebfc"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-20-port-burst-not-torrent-trackers.md",
+      "sha256": "4cfe92246868eaf340d3b554de225c499379f00e9f8403d615ee22255fc998f2"
+    },
+    {
+      "path": "Agents/Hosts/anvil/memories/2026-03-25-start-menu-shortcut-pruned.md",
+      "sha256": "06ad05726e5274014ca93100f2eb254926c19dae867c2ccf7c7cee9878b3f8c2"
+    },
+    {
+      "path": "Agents/Hosts/bastion/AGENTS.md",
+      "sha256": "ed3cc7da0b39ec77d7475293cecb0f9ee2aa5863e472529073714db3f3336e9d"
+    },
+    {
+      "path": "Agents/Hosts/bastion/memories/2026-03-04-hypervisor-ad-auth-migration.md",
+      "sha256": "5b015625ff8fb6e6c84c50f6a9d05df6dad8cdd3f668fbbdb7c6cfad6ee2c08b"
+    },
+    {
+      "path": "Agents/Hosts/bastion/memories/2026-03-06-secrets-vault-validation.md",
+      "sha256": "df4e86fdcd84e70e25e8a7194c1de9dec2088f6bba4f7ae0522c2e847d4263ab"
+    },
+    {
+      "path": "Agents/Hosts/bastion/memories/2026-03-10-avoid-docker-for-durable-services.md",
+      "sha256": "e2ab47f6788678a74ddf0d283085157b7e3a42421825af222782b860cb5fc15e"
+    },
+    {
+      "path": "Agents/Hosts/README.md",
+      "sha256": "e2f2847623949c032cd3995ca50fadd38508bd02a3db332885cadc49aad35a1d"
+    },
+    {
+      "path": "Agents/Secrets/README.md",
+      "sha256": "7b50a938739ad41653ce23b5a2ec4234b14457c7a99ffdf3be17fb16229e7e3f"
+    },
+    {
+      "path": "Agents/Secrets/secret-names.env.example",
+      "sha256": "fd622a1773e0f89f04c5cb930cb20167eb35616dd34c3da8b59a274384d9dc4c"
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "ce064486b50329119509257eaf09b89a3fd85ee8437b37d1e89e32dd11440e26"
+    },
+    {
+      "path": "Claude/CLAUDE.md",
+      "sha256": "34f9130ee537b573cb9afea557c58ffab3100ebb29a003cf15234fc6183c535b"
+    },
+    {
+      "path": "Codex/AGENTS.md",
+      "sha256": "d093238d6fc09d1456b03f6a5c229238fecce6272b528a7ef718d18156a34c17"
+    },
+    {
+      "path": "docs/GremlinOps_Github.png",
+      "sha256": "19ef9bca30fa0dcc967632cbd37ad2cb6780ca2ca166707ace2e05b5ebcab4cc"
+    },
+    {
+      "path": "doctrine/control-plane.md",
+      "sha256": "0884e9813c4e64b2e26721f83cc317364d50a2ba0977ab3fee82753c7dc0a412"
+    },
+    {
+      "path": "doctrine/operating-modes.md",
+      "sha256": "e67492247292770e5e47fbd61bcbff89a4113302828ec7e0a997cb68e17bb62a"
+    },
+    {
+      "path": "GEMINI.md",
+      "sha256": "b0c727ef5d15b5139660665526a6288f7376be53c107648617522c3b296d76c4"
+    },
+    {
+      "path": "Gemini/GEMINI.md",
+      "sha256": "e3b018a5223ab75da86f1bf00489c3293197f9ac6cef205f4ec4b98cdf1a03cf"
+    },
+    {
+      "path": "GIT_WORKFLOW.md",
+      "sha256": "812c7f5e543fbb417fb853fbb3b5034d65b6386534e17623dfd2ca4794c0dcb6"
+    },
+    {
+      "path": "gremlin-init.sh",
+      "sha256": "33f2e8ce1b013bb5f5bc26c013c160ddecdedf423e385a26a605e68c7de28c1c"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "4a9698365365c8a204b485de68207fabf47258bdf93c40d9fa7b67c38e998862"
+    },
+    {
+      "path": "NEW_DEVICE_AGENT_ONBOARDING.md",
+      "sha256": "0dd3f3deb628333fbc13ff457a28f8758a5231fc78646c81061532b01522f252"
+    },
+    {
+      "path": "onboarding/QUICKSTART.md",
+      "sha256": "fde78651cff7e473aeb030922e2e76fbb27df8c90cfecc3b00dbceab2de23313"
+    },
+    {
+      "path": "README.md",
+      "sha256": "067de2c91c440c7701455685ea9112fd824a193fb2d6c4e7230594404b8acf8a"
+    },
+    {
+      "path": "ROADMAP.md",
+      "sha256": "b992a8c073cc85a12d52395e48059b433238f52038c5d0fa2f4f4d741881c69e"
+    }
+  ]
+}

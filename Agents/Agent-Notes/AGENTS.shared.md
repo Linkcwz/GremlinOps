@@ -53,15 +53,20 @@ Before folding it into shared repo memory:
 
 ## Memory and Instruction Policy
 
-- Memories are shared by default. If a task produces context that could help
-  a future agent on any host, create a concise repo-backed memory note. This
-  applies to ordinary work too: shell/editor configuration, app wiring,
-  workflow choices, troubleshooting findings, and operator preferences all
-  count when they are useful beyond the current chat.
+- **Memories are evidence; topic docs are doctrine.** A durable fact/rule/state
+  belongs in a **non-dated topic doc organized by subject** — the current
+  authoritative answer — and you update that doc when the fact changes. Ordinary
+  work counts too: shell/editor configuration, app wiring, workflow choices,
+  troubleshooting findings, and operator preferences are all durable knowledge,
+  but they go in the relevant topic doc / shared doctrine, not a reflexive dated
+  note.
 - Identify the host by its ACTUAL hostname before choosing a write folder.
   Operating system is not enough — two different machines running the same OS
   have different folders.
-- Use small dated Markdown files:
+- Dated Markdown memories are the **evidence layer** — write one only for a
+  detailed incident/diagnostic record that backs a topic doc; tag it
+  `Evidence-for: <topic-doc>` and link it from that doc's `History / Evidence`.
+  Never build an `INDEX.md` that is just a graveyard of dated-memory links.
 
   ```text
   Agents/Hosts/<Identity>/memories/YYYY-MM-DD-short-topic.md
